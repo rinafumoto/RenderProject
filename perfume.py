@@ -10,10 +10,11 @@ ri.Begin(filename)
 ri.Display("perfume.exr", "it", "rgba")
 ri.Format(720, 576, 1)
 # ri.Format(1920, 1080, 1)
+# ri.Projection(ri.ORTHOGRAPHIC)
 ri.Projection(ri.PERSPECTIVE,{ri.FOV:100})
 
 ri.WorldBegin()
-
+# ri.Scale(0.1,0.1,0.1)
 ri.Translate(0, 0, 10)
 # ri.Rotate(-25, 1, 0, 0)
 
