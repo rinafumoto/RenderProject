@@ -34,6 +34,7 @@ ri.Translate(0, 1.5, 20)
 # ri.Translate(0, 100, 0)
 ri.Rotate(-30, 1, 0, 0)
 # ri.Rotate(-5, 0, 0, 1)
+# ri.DepthOfField(5.6, 0.9, 20)
 
 ri.WorldBegin()
 
@@ -131,11 +132,11 @@ ri.TransformEnd()
 ri.TransformEnd()
 
 ### Table ###
+ri.Pattern("PxrTexture", "myTexture", {
+    "string filename" : ["textures/White_oak_pxr128.tx"]
+    })
 ri.Bxdf("PxrDisney", "bxdf",{
-    "color baseColor" : [ 1, 1, 1],
-    "float metallic": [0],
-    "float specular":[0],
-    "float roughness":[0.5]
+    "reference color baseColor" : ["myTexture:resultRGB"]
     })
 
 # expr = """
@@ -160,8 +161,9 @@ ri.Bxdf("PxrDisney", "bxdf",{
 
 ri.TransformBegin()
 ri.Rotate(-90, 1, 0, 0)
-ri.Translate(0, 0, -bodyHeight-bottomMinorRadius)
-# ri.Patch("bilinear", {"P": [-40,-80,0, 40,-80,0, -40,20,0, 40,20,0]})
+ri.Rotate(90,0,0,1)
+ri.Translate(-35, 0, -(bodyHeight+bottomMinorRadius))
+ri.Patch("bilinear", {"P": [-40,-40,0, 40,-40,0, -40,40,0, 40,40,0]})
 ri.TransformEnd()
 
 ri.WorldEnd()
