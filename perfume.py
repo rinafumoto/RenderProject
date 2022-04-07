@@ -14,11 +14,11 @@ filename = "__render"  # "perfume.rib"
 ri.Begin(filename)
 # ri.Display("perfume_"+str(deg)+".exr", "it", "rgba")
 ri.Display("perfume.exr", "it", "rgba")
-ri.Format(720, 576, 1)
-# ri.Format(1920, 1080, 1)
+# ri.Format(720, 576, 1)
+ri.Format(1920, 1080, 1)
 
 ri.Hider("raytrace", {"int incremental": [1]})
-# ri.ShadingRate(10)
+ri.ShadingRate(10)
 ri.PixelVariance(0.1)
 ri.Integrator("PxrPathTracer", "integrator")
 
@@ -73,11 +73,11 @@ ri.Pattern("shader", "shader",{
 })
 
 ri.Attribute("displacementbound", {
-    "float sphere" : [0.01]
+    "float sphere" : [0.001]
 })
 
 ri.Displace("PxrDisplace", "disp", {
-    "float dispAmount": [0.002],
+    "float dispAmount": [0.001],
     "reference float dispScalar": ["shader:resultF"]
 })
 

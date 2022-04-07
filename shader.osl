@@ -4,7 +4,8 @@ shader shader(
     output float resultF = 0
 )
 {
-    int i = (int)floor(u*500);
-    resultF = (float)(i%2);
+    // int i = (int)floor(u*800);
+    // resultF = (float)(i%2);
+    resultF = (float)noise("uperlin",u*800);
     Cout = (1.25-resultF*0.5)*Cin;
 }
