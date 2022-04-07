@@ -12,7 +12,6 @@ filename = "__render"  # "perfume.rib"
 ##### SETTINGS #####
 
 ri.Begin(filename)
-
 # ri.Display("perfume_"+str(deg)+".exr", "it", "rgba")
 ri.Display("perfume.exr", "it", "rgba")
 ri.Format(720, 576, 1)
@@ -20,8 +19,11 @@ ri.Format(720, 576, 1)
 
 ri.Hider("raytrace", {"int incremental": [1]})
 # ri.ShadingRate(10)
-# ri.PixelVariance(0.1)
+ri.PixelVariance(0.1)
 ri.Integrator("PxrPathTracer", "integrator")
+
+ri.Option( 'statistics', {'filename'  : [ 'stats.txt' ] } )
+ri.Option( 'statistics', {'endofframe' : [ 1 ] })
 
 # ri.Projection(ri.ORTHOGRAPHIC)
 ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
@@ -64,12 +66,27 @@ middleHeight = 1.3
 
 ### Body ###
 
+ri.AttributeBegin()
+
+ri.Pattern("shader", "shader",{
+    "color Cin": [ 0.65, 0.27, 0.07 ]
+})
+
+ri.Attribute("displacementbound", {
+    "float sphere" : [0.01]
+})
+
+ri.Displace("PxrDisplace", "disp", {
+    "float dispAmount": [0.002],
+    "reference float dispScalar": ["shader:resultF"]
+})
+
 ri.Bxdf("PxrDisney", "bxdf",{
-    "color baseColor" : [ 0.65, 0.27, 0.07 ],
+    "reference color baseColor" : ["shader:Cout"],
     "float metallic": [0.9],
     "float anisotropic" : [0.6],
     "float roughness": [0.3]
-    })
+})
 
 ri.TransformBegin()
 ri.Rotate(-90, 1, 0, 0)
@@ -102,7 +119,12 @@ radius = bodyRadius-bottomMinorRadius+math.sin(math.radians(degree))*bottomMinor
 ri.Disk(height, radius, 360)
 ri.TransformEnd()
 
+ri.AttributeEnd()
+
 ### Cap ###
+
+ri.AttributeBegin()
+
 ri.TransformBegin()
 ri.Translate(0, 0.05, 0)
 
@@ -110,7 +132,7 @@ ri.Bxdf("PxrDisney", "bxdf",{
     "color baseColor" : [ 0.65, 0.27, 0.07 ],
     "float metallic": [1],
     "float roughness": [0]
-    })
+})
 
 ri.TransformBegin()
 ri.Translate(0, middleHeight, 0)
@@ -131,13 +153,18 @@ ri.Disk(middleHeight+capHeight+minorRadius, capRadius-minorRadius, 360)
 ri.TransformEnd()
 ri.TransformEnd()
 
+ri.AttributeEnd()
+
 ### Table ###
+
+ri.AttributeBegin()
+
 ri.Pattern("PxrTexture", "myTexture", {
     "string filename" : ["textures/White_oak_pxr128.tx"]
-    })
+})
 ri.Bxdf("PxrDisney", "bxdf",{
     "reference color baseColor" : ["myTexture:resultRGB"]
-    })
+})
 
 # expr = """
 # $colour = c1;
@@ -165,6 +192,8 @@ ri.Rotate(90,0,0,1)
 ri.Translate(-35, 0, -(bodyHeight+bottomMinorRadius))
 ri.Patch("bilinear", {"P": [-40,-40,0, 40,-40,0, -40,40,0, 40,40,0]})
 ri.TransformEnd()
+
+ri.AttributeEnd()
 
 ri.WorldEnd()
 ri.End()

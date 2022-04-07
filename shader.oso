@@ -1,0 +1,34 @@
+OpenShadingLanguage 1.00
+# Compiled by oslc 1.11.0@OPROJECT_VERSION_RELEASE_TYPE@
+# options: 
+shader shader
+param	color	Cin	0 0 0		%read{7,7} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{7,7}
+oparam	float	resultF	0		%read{5,5} %write{4,4}
+global	float	u	%read{0,0} %write{2147483647,-1}
+local	int	i	%read{3,3} %write{2,2}
+temp	float	$tmp1	%read{2,2} %write{1,1}
+temp	float	$tmp2	%read{1,1} %write{0,0}
+const	float	$const2	500		%read{0,0} %write{2147483647,-1}
+const	int	$const3	2		%read{3,3} %write{2147483647,-1}
+temp	int	$tmp3	%read{4,4} %write{3,3}
+const	float	$const4	1.25		%read{6,6} %write{2147483647,-1}
+const	float	$const5	0.5		%read{5,5} %write{2147483647,-1}
+temp	float	$tmp4	%read{6,6} %write{5,5}
+temp	float	$tmp5	%read{7,7} %write{6,6}
+code ___main___
+# shader.osl:7
+#     int i = (int)floor(u*500);
+	mul		$tmp2 u $const2 	%filename{"shader.osl"} %line{7} %argrw{"wrr"}
+	floor		$tmp1 $tmp2 	%argrw{"wr"}
+	assign		i $tmp1 	%argrw{"wr"}
+# shader.osl:8
+#     resultF = (float)(i%2);
+	mod		$tmp3 i $const3 	%line{8} %argrw{"wrr"}
+	assign		resultF $tmp3 	%argrw{"wr"}
+# shader.osl:9
+#     Cout = (1.25-resultF*0.5)*Cin;
+	mul		$tmp4 resultF $const5 	%line{9} %argrw{"wrr"}
+	sub		$tmp5 $const4 $tmp4 	%argrw{"wrr"}
+	mul		Cout $tmp5 Cin 	%argrw{"wrr"}
+	end

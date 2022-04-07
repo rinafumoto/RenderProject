@@ -1,0 +1,10 @@
+shader shader(
+    color Cin  = 0,
+    output color Cout = 0,
+    output float resultF = 0
+)
+{
+    int i = (int)floor(u*500);
+    resultF = (float)(i%2);
+    Cout = (1.25-resultF*0.5)*Cin;
+}
