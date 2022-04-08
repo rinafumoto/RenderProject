@@ -45,21 +45,27 @@ ri.Pattern("shader", "shader",{
     "color Cin": [ 0.65, 0.27, 0.07 ]
 })
 
-# ri.Attribute("displacementbound", {
-#     "float sphere" : [0.1]
-# })
-
-# ri.Displace("PxrDisplace", "disp", {
-#     "float dispAmount": [0.1],
-#     "reference float dispScalar": ["shader:resultF"]
-# })
-
-ri.Bxdf("PxrDisney", "bxdf",{
-    "reference color baseColor" : ["shader:test"],
-    # "float metallic": [0.9],
-    # "float anisotropic" : [0.6],
-    # "float roughness": [0.3]
+ri.Attribute("displacementbound", {
+    "float sphere" : [0.1]
 })
+
+ri.Displace("PxrDisplace", "disp", {
+    "float dispAmount": [0.1],
+    "reference float dispScalar": ["shader:test"]
+})
+
+# ri.Pattern("PxrVoronoise", "noiseTexture",{
+#     "float frequency": [5],
+#     "float jitter" : [0.5],
+#     "float smoothness": [1]
+# })
+
+# ri.Bxdf("PxrDisney", "bxdf",{
+#     "reference color baseColor" : ["shader:Cout"],
+#     # "float metallic": [0.9],
+#     # "float anisotropic" : [0.6],
+#     # "float roughness": [0.3]
+# })
 
 # ri.Rotate(-90, 1, 0, 0)
 # ri.Geometry("teapot")

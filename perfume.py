@@ -66,7 +66,6 @@ middleHeight = 1.3
 
 ### Body ###
 
-ri.AttributeBegin()
 
 ri.Pattern("shader", "shader",{
     "color Cin": [ 0.65, 0.27, 0.07 ]
@@ -81,8 +80,10 @@ ri.Displace("PxrDisplace", "disp", {
     "reference float dispScalar": ["shader:resultF"]
 })
 
+ri.AttributeBegin()
+
 ri.Bxdf("PxrDisney", "bxdf",{
-    "reference color baseColor" : ["shader:Cout"],
+    "reference color baseColor" : ["shader:Cout2"],
     "float metallic": [0.9],
     "float anisotropic" : [0.6],
     "float roughness": [0.3]
@@ -92,6 +93,15 @@ ri.TransformBegin()
 ri.Rotate(-90, 1, 0, 0)
 ri.Cylinder(bodyRadius, -bodyHeight, 0, 360)
 ri.TransformEnd()
+ri.AttributeEnd()
+ri.AttributeBegin()
+
+ri.Bxdf("PxrDisney", "bxdf",{
+    "reference color baseColor" : ["shader:Cout"],
+    "float metallic": [0.9],
+    "float anisotropic" : [0.6],
+    "float roughness": [0.3]
+})
 
 ri.TransformBegin()
 ri.Rotate(-90, 1, 0, 0)
@@ -121,79 +131,79 @@ ri.TransformEnd()
 
 ri.AttributeEnd()
 
-### Cap ###
+# ### Cap ###
 
-ri.AttributeBegin()
+# ri.AttributeBegin()
 
-ri.TransformBegin()
-ri.Translate(0, 0.05, 0)
+# ri.TransformBegin()
+# ri.Translate(0, 0.05, 0)
 
-ri.Bxdf("PxrDisney", "bxdf",{
-    "color baseColor" : [ 0.65, 0.27, 0.07 ],
-    "float metallic": [1],
-    "float roughness": [0]
-})
+# ri.Bxdf("PxrDisney", "bxdf",{
+#     "color baseColor" : [ 0.65, 0.27, 0.07 ],
+#     "float metallic": [1],
+#     "float roughness": [0]
+# })
 
-ri.TransformBegin()
-ri.Translate(0, middleHeight, 0)
-ri.Rotate(-90, 1, 0, 0)
-ri.Cylinder(capRadius, 0, capHeight, 360)
-ri.TransformEnd()
+# ri.TransformBegin()
+# ri.Translate(0, middleHeight, 0)
+# ri.Rotate(-90, 1, 0, 0)
+# ri.Cylinder(capRadius, 0, capHeight, 360)
+# ri.TransformEnd()
 
-ri.TransformBegin()
-ri.Rotate(-90, 1, 0, 0)
-ri.Translate(0, 0, middleHeight+capHeight)
-minorRadius = 0.05
-ri.Torus(capRadius-minorRadius, minorRadius, 0, 90, 360)
-ri.TransformEnd()
+# ri.TransformBegin()
+# ri.Rotate(-90, 1, 0, 0)
+# ri.Translate(0, 0, middleHeight+capHeight)
+# minorRadius = 0.05
+# ri.Torus(capRadius-minorRadius, minorRadius, 0, 90, 360)
+# ri.TransformEnd()
 
-ri.TransformBegin()
-ri.Rotate(-90, 1, 0, 0)
-ri.Disk(middleHeight+capHeight+minorRadius, capRadius-minorRadius, 360)
-ri.TransformEnd()
-ri.TransformEnd()
+# ri.TransformBegin()
+# ri.Rotate(-90, 1, 0, 0)
+# ri.Disk(middleHeight+capHeight+minorRadius, capRadius-minorRadius, 360)
+# ri.TransformEnd()
+# ri.TransformEnd()
 
-ri.AttributeEnd()
+# ri.AttributeEnd()
 
-### Table ###
+# ### Table ###
 
-ri.AttributeBegin()
+# ri.AttributeBegin()
 
-ri.Pattern("PxrTexture", "myTexture", {
-    "string filename" : ["textures/White_oak_pxr128.tx"]
-})
-ri.Bxdf("PxrDisney", "bxdf",{
-    "reference color baseColor" : ["myTexture:resultRGB"]
-})
+# ri.Pattern("PxrTexture", "myTexture", {
+#     "string filename" : ["textures/White_oak_pxr128.tx"]
+# })
+# ri.Bxdf("PxrDisney", "bxdf",{
+#     "reference color baseColor" : ["myTexture:resultRGB"]
+# })
 
-# expr = """
-# $colour = c1;
-# $c = floor( 10 * $u ) +floor( 10 * $v );
-# if( fmod( $c, 2.0 ) < 1.0 )
-# {
-# 	$colour=c2;
-# }
-# $colour
-# """
+# # expr = """
+# # $colour = c1;
+# # $c = floor( 10 * $u ) +floor( 10 * $v );
+# # if( fmod( $c, 2.0 ) < 1.0 )
+# # {
+# # 	$colour=c2;
+# # }
+# # $colour
+# # """
 
-# ri.Pattern("PxrSeExpr", "seTexture", {"color c1": [1, 1, 1], "color c2": [0, 0, 0], "string expression": [expr]})
-# ri.Bxdf(
-#     "PxrDiffuse",
-#     "diffuse",
-#     {
-#         #  'color diffuseColor'  : [1,0,0]
-#         "reference color diffuseColor": ["seTexture:resultRGB"]
-#     },
-# )
+# # ri.Pattern("PxrSeExpr", "seTexture", {"color c1": [1, 1, 1], "color c2": [0, 0, 0], "string expression": [expr]})
+# # ri.Bxdf(
+# #     "PxrDiffuse",
+# #     "diffuse",
+# #     {
+# #         #  'color diffuseColor'  : [1,0,0]
+# #         "reference color diffuseColor": ["seTexture:resultRGB"]
+# #     },
+# # )
 
-ri.TransformBegin()
-ri.Rotate(-90, 1, 0, 0)
-ri.Rotate(90,0,0,1)
-ri.Translate(-35, 0, -(bodyHeight+bottomMinorRadius))
-ri.Patch("bilinear", {"P": [-40,-40,0, 40,-40,0, -40,40,0, 40,40,0]})
-ri.TransformEnd()
+# ri.TransformBegin()
+# ri.Rotate(-90, 1, 0, 0)
+# ri.Rotate(90,0,0,1)
+# ri.Translate(-35, 0, -(bodyHeight+bottomMinorRadius))
+# ri.Patch("bilinear", {"P": [-40,-40,0, 40,-40,0, -40,40,0, 40,40,0]})
+# ri.TransformEnd()
 
-ri.AttributeEnd()
+# ri.AttributeEnd()
 
 ri.WorldEnd()
 ri.End()

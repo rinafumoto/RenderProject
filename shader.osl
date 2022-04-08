@@ -1,6 +1,7 @@
 shader shader(
     color Cin  = 0,
     output color Cout = 0,
+    output color Cout2 = 0,
     output float resultF = 0,
     output color test = 0
 )
@@ -32,4 +33,9 @@ shader shader(
     mag = 1-mag;
     color dark=color("rgb",0.33,0.13,0.04);
     Cout = mix(Cin,dark,mag*0.5);
+
+    // Fingerprint
+    float n = (float)noise("usimplex", P*10);
+    float m = smoothstep(0,1,sin(v*4));
+    Cout2 = mix(Cout,Cin,m*n);
 }
