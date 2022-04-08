@@ -1,11 +1,35 @@
 shader shader(
     color Cin  = 0,
     output color Cout = 0,
-    output float resultF = 0
+    output float resultF = 0,
+    output color test = 0
 )
 {
-    // int i = (int)floor(u*800);
-    // resultF = (float)(i%2);
-    resultF = (float)noise("uperlin",u*800);
-    Cout = (1.25-resultF*0.5)*Cin;
+    // Uniform Lines
+    int f = (int)floor(u*800);
+    resultF = (float)(f%2);
+    // resultF = (float)noise("uperlin",u*800);
+    color lines = (1.25-resultF*0.5)*Cin;
+
+    // Random Lines
+    int i=0;
+    float randomLines;
+    float filter;
+    float mag = 0;
+    float freq = 1;
+
+    for (i=0;i<7;i+=1)
+    {
+        randomLines = (float)noise("uperlin",(u+freq)*300+freq);
+        randomLines = smoothstep(0,0.8,randomLines);
+        filter = (float)noise("uperlin",(v+freq)*10+noise("perlin",((u+freq)*25))*0.3);
+        filter = smoothstep(0.2,0.8,filter);
+        mag += 1-smoothstep(0,1,randomLines+filter);
+        mag = smoothstep(0,1,mag);
+        freq *= 2.1;
+    }
+
+    mag = 1-mag;
+    color dark=color("rgb",0.33,0.13,0.04);
+    Cout = mix(Cin,dark,mag*0.5);
 }

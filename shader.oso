@@ -2,25 +2,138 @@ OpenShadingLanguage 1.00
 # Compiled by oslc 1.11.0@OPROJECT_VERSION_RELEASE_TYPE@
 # options: 
 shader shader
-param	color	Cin	0 0 0		%read{4,4} %write{2147483647,-1}
-oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{4,4}
-oparam	float	resultF	0		%read{2,2} %write{1,1}
-global	float	u	%read{0,0} %write{2147483647,-1}
-const	string	$const1	"uperlin"		%read{1,1} %write{2147483647,-1}
-temp	float	$tmp1	%read{1,1} %write{0,0}
-const	float	$const3	800		%read{0,0} %write{2147483647,-1}
-const	float	$const4	1.25		%read{3,3} %write{2147483647,-1}
-const	float	$const5	0.5		%read{2,2} %write{2147483647,-1}
-temp	float	$tmp2	%read{3,3} %write{2,2}
-temp	float	$tmp3	%read{4,4} %write{3,3}
+param	color	Cin	0 0 0		%read{7,39} %write{2147483647,-1}
+oparam	color	Cout	0 0 0		%read{2147483647,-1} %write{39,39}
+oparam	float	resultF	0		%read{5,5} %write{4,4}
+oparam	color	test	0 0 0		%read{2147483647,-1} %write{2147483647,-1}
+global	float	u	%read{0,22} %write{2147483647,-1}
+global	float	v	%read{20,20} %write{2147483647,-1}
+local	int	f	%read{3,3} %write{2,2}
+local	color	lines	%read{2147483647,-1} %write{7,7}
+local	int	i	%read{13,35} %write{8,35}
+local	float	randomLines	%read{13,35} %write{13,35}
+local	float	filter	%read{13,35} %write{13,35}
+local	float	mag	%read{13,38} %write{9,36}
+local	float	freq	%read{13,35} %write{10,35}
+local	color	dark	%read{39,39} %write{37,37}
+temp	float	$tmp1	%read{2,2} %write{1,1}
+temp	float	$tmp2	%read{1,1} %write{0,0}
+const	float	$const2	800		%read{0,0} %write{2147483647,-1}
+const	int	$const3	2		%read{3,3} %write{2147483647,-1}
+temp	int	$tmp3	%read{4,4} %write{3,3}
+const	float	$const4	1.25		%read{6,6} %write{2147483647,-1}
+const	float	$const5	0.5		%read{5,38} %write{2147483647,-1}
+temp	float	$tmp4	%read{6,6} %write{5,5}
+temp	float	$tmp5	%read{7,7} %write{6,6}
+const	int	$const6	0		%read{8,14} %write{2147483647,-1}
+const	int	$const7	1		%read{10,35} %write{2147483647,-1}
+const	int	$const8	7		%read{13,13} %write{2147483647,-1}
+temp	int	$tmp6	%read{13,35} %write{13,35}
+temp	int	$tmp7	%read{11,35} %write{12,35}
+const	string	$const9	"uperlin"		%read{18,27} %write{2147483647,-1}
+temp	float	$tmp8	%read{13,35} %write{13,35}
+temp	float	$tmp9	%read{13,35} %write{13,35}
+const	float	$const11	300		%read{16,16} %write{2147483647,-1}
+temp	float	$tmp10	%read{13,35} %write{13,35}
+const	float	$const12	0		%read{19,33} %write{2147483647,-1}
+const	float	$const13	0.800000012		%read{19,28} %write{2147483647,-1}
+temp	float	$tmp11	%read{13,35} %write{13,35}
+temp	float	$tmp12	%read{13,35} %write{13,35}
+const	float	$const15	10		%read{21,21} %write{2147483647,-1}
+temp	float	$tmp13	%read{13,35} %write{13,35}
+const	string	$const16	"perlin"		%read{24,24} %write{2147483647,-1}
+temp	float	$tmp14	%read{13,35} %write{13,35}
+temp	float	$tmp15	%read{13,35} %write{13,35}
+const	float	$const18	25		%read{23,23} %write{2147483647,-1}
+const	float	$const19	0.300000012		%read{25,25} %write{2147483647,-1}
+temp	float	$tmp16	%read{13,35} %write{13,35}
+temp	float	$tmp17	%read{13,35} %write{13,35}
+const	float	$const20	0.200000003		%read{28,28} %write{2147483647,-1}
+temp	float	$tmp18	%read{13,35} %write{13,35}
+const	float	$const21	1		%read{30,36} %write{2147483647,-1}
+temp	float	$tmp19	%read{13,35} %write{13,35}
+temp	float	$tmp20	%read{13,35} %write{13,35}
+const	float	$const22	2.0999999		%read{34,34} %write{2147483647,-1}
+const	string	$const23	"rgb"		%read{37,37} %write{2147483647,-1}
+const	float	$const24	0.330000013		%read{37,37} %write{2147483647,-1}
+const	float	$const25	0.129999995		%read{37,37} %write{2147483647,-1}
+const	float	$const26	0.0399999991		%read{37,37} %write{2147483647,-1}
+temp	float	$tmp21	%read{39,39} %write{38,38}
 code ___main___
 # shader.osl:9
-#     resultF = (float)noise("uperlin",u*800);
-	mul		$tmp1 u $const3 	%filename{"shader.osl"} %line{9} %argrw{"wrr"}
-	noise		resultF $const1 $tmp1 	%argrw{"wrr"}
+#     int f = (int)floor(u*800);
+	mul		$tmp2 u $const2 	%filename{"shader.osl"} %line{9} %argrw{"wrr"}
+	floor		$tmp1 $tmp2 	%argrw{"wr"}
+	assign		f $tmp1 	%argrw{"wr"}
 # shader.osl:10
-#     Cout = (1.25-resultF*0.5)*Cin;
-	mul		$tmp2 resultF $const5 	%line{10} %argrw{"wrr"}
-	sub		$tmp3 $const4 $tmp2 	%argrw{"wrr"}
-	mul		Cout $tmp3 Cin 	%argrw{"wrr"}
+#     resultF = (float)(f%2);
+	mod		$tmp3 f $const3 	%line{10} %argrw{"wrr"}
+	assign		resultF $tmp3 	%argrw{"wr"}
+# shader.osl:12
+#     color lines = (1.25-resultF*0.5)*Cin;
+	mul		$tmp4 resultF $const5 	%line{12} %argrw{"wrr"}
+	sub		$tmp5 $const4 $tmp4 	%argrw{"wrr"}
+	mul		lines $tmp5 Cin 	%argrw{"wrr"}
+# shader.osl:15
+#     int i=0;
+	assign		i $const6 	%line{15} %argrw{"wr"}
+# shader.osl:18
+#     float mag = 0;
+	assign		mag $const6 	%line{18} %argrw{"wr"}
+# shader.osl:19
+#     float freq = 1;
+	assign		freq $const7 	%line{19} %argrw{"wr"}
+# shader.osl:21
+#     for (i=0;i<7;i+=1)
+	for		$tmp7 13 15 35 36 	%line{21} %argrw{"r"}
+	assign		i $const6 	%argrw{"wr"}
+	lt		$tmp6 i $const8 	%argrw{"wrr"}
+	neq		$tmp7 $tmp6 $const6 	%argrw{"wrr"}
+# shader.osl:23
+#         randomLines = (float)noise("uperlin",(u+freq)*300+freq);
+	add		$tmp8 u freq 	%line{23} %argrw{"wrr"}
+	mul		$tmp9 $tmp8 $const11 	%argrw{"wrr"}
+	add		$tmp10 $tmp9 freq 	%argrw{"wrr"}
+	noise		randomLines $const9 $tmp10 	%argrw{"wrr"}
+# shader.osl:24
+#         randomLines = smoothstep(0,0.8,randomLines);
+	smoothstep	randomLines $const12 $const13 randomLines 	%line{24} %argrw{"wrrr"}
+# shader.osl:25
+#         filter = (float)noise("uperlin",(v+freq)*10+noise("perlin",((u+freq)*25))*0.3);
+	add		$tmp11 v freq 	%line{25} %argrw{"wrr"}
+	mul		$tmp12 $tmp11 $const15 	%argrw{"wrr"}
+	add		$tmp14 u freq 	%argrw{"wrr"}
+	mul		$tmp15 $tmp14 $const18 	%argrw{"wrr"}
+	noise		$tmp13 $const16 $tmp15 	%argrw{"wrr"}
+	mul		$tmp16 $tmp13 $const19 	%argrw{"wrr"}
+	add		$tmp17 $tmp12 $tmp16 	%argrw{"wrr"}
+	noise		filter $const9 $tmp17 	%argrw{"wrr"}
+# shader.osl:26
+#         filter = smoothstep(0.2,0.8,filter);
+	smoothstep	filter $const20 $const13 filter 	%line{26} %argrw{"wrrr"}
+# shader.osl:27
+#         mag += 1-smoothstep(0,1,randomLines+filter);
+	add		$tmp19 randomLines filter 	%line{27} %argrw{"wrr"}
+	smoothstep	$tmp18 $const12 $const21 $tmp19 	%argrw{"wrrr"}
+	sub		$tmp20 $const21 $tmp18 	%argrw{"wrr"}
+	add		mag mag $tmp20 	%argrw{"wrr"}
+# shader.osl:28
+#         mag = smoothstep(0,1,mag);
+	smoothstep	mag $const12 $const21 mag 	%line{28} %argrw{"wrrr"}
+# shader.osl:29
+#         freq *= 2.1;
+	mul		freq freq $const22 	%line{29} %argrw{"wrr"}
+# shader.osl:21
+#     for (i=0;i<7;i+=1)
+	add		i i $const7 	%line{21} %argrw{"wrr"}
+# shader.osl:32
+#     mag = 1-mag;
+	sub		mag $const21 mag 	%line{32} %argrw{"wrr"}
+# shader.osl:33
+#     color dark=color("rgb",0.33,0.13,0.04);
+	color		dark $const23 $const24 $const25 $const26 	%line{33} %argrw{"wrrrr"}
+# shader.osl:34
+#     Cout = mix(Cin,dark,mag*0.5);
+	mul		$tmp21 mag $const5 	%line{34} %argrw{"wrr"}
+	mix		Cout Cin dark $tmp21 	%argrw{"wrrr"}
 	end

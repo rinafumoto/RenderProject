@@ -73,7 +73,7 @@ ri.Pattern("shader", "shader",{
 })
 
 ri.Attribute("displacementbound", {
-    "float sphere" : [0.001]
+    "float sphere" : [0.005]
 })
 
 ri.Displace("PxrDisplace", "disp", {
