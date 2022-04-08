@@ -3,7 +3,8 @@ shader shader(
     output color Cout = 0,
     output color Cout2 = 0,
     output float resultF = 0,
-    output float disp = 0
+    output float disp = 0,
+    output color test = 0
 )
 {
     // Uniform Lines
@@ -40,20 +41,9 @@ shader shader(
     Cout2 = mix(Cout,Cin,m*n);
 
     // white pattern;
-    mag=0;
-    freq=1;
-    point PP=transform("shader",P);
-    PP*=20;
-
-    for(i=0;i<1;i+=1)
-        {
-		mag+=abs((float)noise("perlin",PP*freq))*10;
-        freq*=2.1;
-	}
-
+	mag=abs((float)noise("perlin",P*12))*20;
     mag=smoothstep(0.9,1,1-mag);
     float m2 = smoothstep(0,1,sin(v*6-1));
     disp = mag*m2+resultF;
-
     Cout2 = mix(Cout2,1,mag*m2);
 }
