@@ -8,7 +8,7 @@ oparam	color	Cout2	0 0 0		%read{61,61} %write{46,61}
 oparam	float	resultF	0		%read{5,58} %write{4,4}
 oparam	float	disp	0		%read{2147483647,-1} %write{58,58}
 oparam	color	test	0 0 0		%read{2147483647,-1} %write{2147483647,-1}
-global	point	P	%read{40,47} %write{2147483647,-1}
+global	point	P	%read{40,62} %write{2147483647,-1}
 global	float	u	%read{0,22} %write{2147483647,-1}
 global	float	v	%read{20,53} %write{2147483647,-1}
 local	int	f	%read{3,3} %write{2,2}
@@ -22,6 +22,7 @@ local	color	dark	%read{39,39} %write{37,37}
 local	float	n	%read{45,45} %write{41,41}
 local	float	m	%read{45,45} %write{44,44}
 local	float	m2	%read{57,60} %write{56,56}
+local	float	a	%read{64,64} %write{63,64}
 temp	float	$tmp1	%read{2,2} %write{1,1}
 temp	float	$tmp2	%read{1,1} %write{0,0}
 const	float	$const2	800		%read{0,0} %write{2147483647,-1}
@@ -42,10 +43,10 @@ temp	float	$tmp9	%read{13,35} %write{13,35}
 const	float	$const11	300		%read{16,16} %write{2147483647,-1}
 temp	float	$tmp10	%read{13,35} %write{13,35}
 const	float	$const12	0		%read{19,56} %write{2147483647,-1}
-const	float	$const13	0.800000012		%read{19,28} %write{2147483647,-1}
+const	float	$const13	0.800000012		%read{19,64} %write{2147483647,-1}
 temp	float	$tmp11	%read{13,35} %write{13,35}
 temp	float	$tmp12	%read{13,35} %write{13,35}
-const	float	$const15	10		%read{21,40} %write{2147483647,-1}
+const	float	$const15	10		%read{21,62} %write{2147483647,-1}
 temp	float	$tmp13	%read{13,35} %write{13,35}
 const	string	$const16	"perlin"		%read{24,48} %write{2147483647,-1}
 temp	float	$tmp14	%read{13,35} %write{13,35}
@@ -56,7 +57,7 @@ temp	float	$tmp16	%read{13,35} %write{13,35}
 temp	float	$tmp17	%read{13,35} %write{13,35}
 const	float	$const20	0.200000003		%read{28,28} %write{2147483647,-1}
 temp	float	$tmp18	%read{13,35} %write{13,35}
-const	float	$const21	1		%read{30,59} %write{2147483647,-1}
+const	float	$const21	1		%read{30,64} %write{2147483647,-1}
 temp	float	$tmp19	%read{13,35} %write{13,35}
 temp	float	$tmp20	%read{13,35} %write{13,35}
 const	float	$const22	2.0999999		%read{34,34} %write{2147483647,-1}
@@ -65,7 +66,7 @@ const	float	$const24	0.330000013		%read{37,37} %write{2147483647,-1}
 const	float	$const25	0.129999995		%read{37,37} %write{2147483647,-1}
 const	float	$const26	0.0399999991		%read{37,37} %write{2147483647,-1}
 temp	float	$tmp21	%read{39,39} %write{38,38}
-const	string	$const27	"usimplex"		%read{41,41} %write{2147483647,-1}
+const	string	$const27	"usimplex"		%read{41,63} %write{2147483647,-1}
 temp	point	$tmp22	%read{41,41} %write{40,40}
 temp	float	$tmp23	%read{44,44} %write{43,43}
 temp	float	$tmp24	%read{43,43} %write{42,42}
@@ -85,6 +86,7 @@ temp	float	$tmp32	%read{55,55} %write{54,54}
 temp	float	$tmp33	%read{58,58} %write{57,57}
 temp	color	$tmp34	%read{61,61} %write{59,59}
 temp	float	$tmp35	%read{61,61} %write{60,60}
+temp	point	$tmp36	%read{63,63} %write{62,62}
 code ___main___
 # shader.osl:11
 #     int f = (int)floor(u*800);
@@ -195,9 +197,16 @@ code ___main___
 #     disp = mag*m2+resultF;
 	mul		$tmp33 mag m2 	%line{47} %argrw{"wrr"}
 	add		disp $tmp33 resultF 	%argrw{"wrr"}
-# shader.osl:49
+# shader.osl:48
 #     Cout2 = mix(Cout2,1,mag*m2);
-	assign		$tmp34 $const21 	%line{49} %argrw{"wr"}
+	assign		$tmp34 $const21 	%line{48} %argrw{"wr"}
 	mul		$tmp35 mag m2 	%argrw{"wrr"}
 	mix		Cout2 Cout2 $tmp34 $tmp35 	%argrw{"wrrr"}
+# shader.osl:51
+#     float a = noise("usimplex",P*10);
+	mul		$tmp36 P $const15 	%line{51} %argrw{"wrr"}
+	noise		a $const27 $tmp36 	%argrw{"wrr"}
+# shader.osl:52
+#     a = smoothstep(0.8,1,a);
+	smoothstep	a $const13 $const21 a 	%line{52} %argrw{"wrrr"}
 	end
