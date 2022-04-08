@@ -4,22 +4,24 @@ OpenShadingLanguage 1.00
 shader shader
 param	color	Cin	0 0 0		%read{7,46} %write{2147483647,-1}
 oparam	color	Cout	0 0 0		%read{46,46} %write{39,39}
-oparam	color	Cout2	0 0 0		%read{2147483647,-1} %write{46,46}
-oparam	float	resultF	0		%read{5,5} %write{4,4}
-oparam	color	test	0 0 0		%read{2147483647,-1} %write{2147483647,-1}
-global	point	P	%read{40,40} %write{2147483647,-1}
+oparam	color	Cout2	0 0 0		%read{73,73} %write{46,73}
+oparam	float	resultF	0		%read{5,70} %write{4,4}
+oparam	float	disp	0		%read{2147483647,-1} %write{70,70}
+global	point	P	%read{40,50} %write{2147483647,-1}
 global	float	u	%read{0,22} %write{2147483647,-1}
-global	float	v	%read{20,42} %write{2147483647,-1}
+global	float	v	%read{20,65} %write{2147483647,-1}
 local	int	f	%read{3,3} %write{2,2}
 local	color	lines	%read{2147483647,-1} %write{7,7}
-local	int	i	%read{13,35} %write{8,35}
+local	int	i	%read{13,62} %write{8,62}
 local	float	randomLines	%read{13,35} %write{13,35}
 local	float	filter	%read{13,35} %write{13,35}
-local	float	mag	%read{13,38} %write{9,36}
-local	float	freq	%read{13,35} %write{10,35}
+local	float	mag	%read{13,72} %write{9,64}
+local	float	freq	%read{13,62} %write{10,62}
 local	color	dark	%read{39,39} %write{37,37}
 local	float	n	%read{45,45} %write{41,41}
 local	float	m	%read{45,45} %write{44,44}
+local	point	PP	%read{51,62} %write{50,51}
+local	float	m2	%read{69,72} %write{68,68}
 temp	float	$tmp1	%read{2,2} %write{1,1}
 temp	float	$tmp2	%read{1,1} %write{0,0}
 const	float	$const2	800		%read{0,0} %write{2147483647,-1}
@@ -29,8 +31,8 @@ const	float	$const4	1.25		%read{6,6} %write{2147483647,-1}
 const	float	$const5	0.5		%read{5,38} %write{2147483647,-1}
 temp	float	$tmp4	%read{6,6} %write{5,5}
 temp	float	$tmp5	%read{7,7} %write{6,6}
-const	int	$const6	0		%read{8,14} %write{2147483647,-1}
-const	int	$const7	1		%read{10,35} %write{2147483647,-1}
+const	int	$const6	0		%read{8,55} %write{2147483647,-1}
+const	int	$const7	1		%read{10,62} %write{2147483647,-1}
 const	int	$const8	7		%read{13,13} %write{2147483647,-1}
 temp	int	$tmp6	%read{13,35} %write{13,35}
 temp	int	$tmp7	%read{11,35} %write{12,35}
@@ -39,13 +41,13 @@ temp	float	$tmp8	%read{13,35} %write{13,35}
 temp	float	$tmp9	%read{13,35} %write{13,35}
 const	float	$const11	300		%read{16,16} %write{2147483647,-1}
 temp	float	$tmp10	%read{13,35} %write{13,35}
-const	float	$const12	0		%read{19,44} %write{2147483647,-1}
+const	float	$const12	0		%read{19,68} %write{2147483647,-1}
 const	float	$const13	0.800000012		%read{19,28} %write{2147483647,-1}
 temp	float	$tmp11	%read{13,35} %write{13,35}
 temp	float	$tmp12	%read{13,35} %write{13,35}
-const	float	$const15	10		%read{21,40} %write{2147483647,-1}
+const	float	$const15	10		%read{21,59} %write{2147483647,-1}
 temp	float	$tmp13	%read{13,35} %write{13,35}
-const	string	$const16	"perlin"		%read{24,24} %write{2147483647,-1}
+const	string	$const16	"perlin"		%read{24,57} %write{2147483647,-1}
 temp	float	$tmp14	%read{13,35} %write{13,35}
 temp	float	$tmp15	%read{13,35} %write{13,35}
 const	float	$const18	25		%read{23,23} %write{2147483647,-1}
@@ -54,10 +56,10 @@ temp	float	$tmp16	%read{13,35} %write{13,35}
 temp	float	$tmp17	%read{13,35} %write{13,35}
 const	float	$const20	0.200000003		%read{28,28} %write{2147483647,-1}
 temp	float	$tmp18	%read{13,35} %write{13,35}
-const	float	$const21	1		%read{30,44} %write{2147483647,-1}
+const	float	$const21	1		%read{30,71} %write{2147483647,-1}
 temp	float	$tmp19	%read{13,35} %write{13,35}
 temp	float	$tmp20	%read{13,35} %write{13,35}
-const	float	$const22	2.0999999		%read{34,34} %write{2147483647,-1}
+const	float	$const22	2.0999999		%read{34,61} %write{2147483647,-1}
 const	string	$const23	"rgb"		%read{37,37} %write{2147483647,-1}
 const	float	$const24	0.330000013		%read{37,37} %write{2147483647,-1}
 const	float	$const25	0.129999995		%read{37,37} %write{2147483647,-1}
@@ -69,6 +71,25 @@ temp	float	$tmp23	%read{44,44} %write{43,43}
 temp	float	$tmp24	%read{43,43} %write{42,42}
 const	float	$const29	4		%read{42,42} %write{2147483647,-1}
 temp	float	$tmp25	%read{46,46} %write{45,45}
+const	string	$const30	"shader"		%read{50,50} %write{2147483647,-1}
+const	string	$const31	"transform"		%read{49,49} %write{2147483647,-1}
+const	string	$const32	"common"		%read{50,50} %write{2147483647,-1}
+const	float	$const34	20		%read{51,51} %write{2147483647,-1}
+temp	int	$tmp26	%read{54,62} %write{54,62}
+temp	int	$tmp27	%read{52,62} %write{53,62}
+temp	float	$tmp28	%read{54,62} %write{54,62}
+temp	float	$tmp29	%read{54,62} %write{54,62}
+temp	point	$tmp30	%read{54,62} %write{54,62}
+temp	float	$tmp31	%read{54,62} %write{54,62}
+const	float	$const35	0.899999976		%read{64,64} %write{2147483647,-1}
+temp	float	$tmp32	%read{64,64} %write{63,63}
+temp	float	$tmp33	%read{68,68} %write{67,67}
+temp	float	$tmp34	%read{66,66} %write{65,65}
+const	float	$const37	6		%read{65,65} %write{2147483647,-1}
+temp	float	$tmp35	%read{67,67} %write{66,66}
+temp	float	$tmp36	%read{70,70} %write{69,69}
+temp	color	$tmp37	%read{73,73} %write{71,71}
+temp	float	$tmp38	%read{73,73} %write{72,72}
 code ___main___
 # shader.osl:10
 #     int f = (int)floor(u*800);
@@ -159,4 +180,57 @@ code ___main___
 #     Cout2 = mix(Cout,Cin,m*n);
 	mul		$tmp25 m n 	%line{40} %argrw{"wrr"}
 	mix		Cout2 Cout Cin $tmp25 	%argrw{"wrrr"}
+# shader.osl:43
+#     mag=0;
+	assign		mag $const6 	%line{43} %argrw{"wr"}
+# shader.osl:44
+#     freq=1;
+	assign		freq $const7 	%line{44} %argrw{"wr"}
+# shader.osl:45
+#     point PP=transform("shader",P);
+	functioncall	$const31 51 	%line{45} %argrw{"r"}
+# /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:285
+# point  transform (string to, point p)  { return transform("common",to,p); }
+	transform	PP $const32 $const30 P 	%filename{"/opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h"} %line{285} %argrw{"wrrr"}
+# shader.osl:46
+#     PP*=20;
+	mul		PP PP $const34 	%filename{"shader.osl"} %line{46} %argrw{"wrr"}
+# shader.osl:48
+#     for(i=0;i<1;i+=1)
+	for		$tmp27 54 56 62 63 	%line{48} %argrw{"r"}
+	assign		i $const6 	%argrw{"wr"}
+	lt		$tmp26 i $const7 	%argrw{"wrr"}
+	neq		$tmp27 $tmp26 $const6 	%argrw{"wrr"}
+# shader.osl:50
+# 		mag+=abs((float)noise("perlin",PP*freq))*10;
+	mul		$tmp30 PP freq 	%line{50} %argrw{"wrr"}
+	noise		$tmp29 $const16 $tmp30 	%argrw{"wrr"}
+	abs		$tmp28 $tmp29 	%argrw{"wr"}
+	mul		$tmp31 $tmp28 $const15 	%argrw{"wrr"}
+	add		mag mag $tmp31 	%argrw{"wrr"}
+# shader.osl:51
+#         freq*=2.1;
+	mul		freq freq $const22 	%line{51} %argrw{"wrr"}
+# shader.osl:48
+#     for(i=0;i<1;i+=1)
+	add		i i $const7 	%line{48} %argrw{"wrr"}
+# shader.osl:54
+#     mag=smoothstep(0.9,1,1-mag);
+	sub		$tmp32 $const21 mag 	%line{54} %argrw{"wrr"}
+	smoothstep	mag $const35 $const21 $tmp32 	%argrw{"wrrr"}
+# shader.osl:55
+#     float m2 = smoothstep(0,1,sin(v*6-1));
+	mul		$tmp34 v $const37 	%line{55} %argrw{"wrr"}
+	sub		$tmp35 $tmp34 $const21 	%argrw{"wrr"}
+	sin		$tmp33 $tmp35 	%argrw{"wr"}
+	smoothstep	m2 $const12 $const21 $tmp33 	%argrw{"wrrr"}
+# shader.osl:56
+#     disp = mag*m2+resultF;
+	mul		$tmp36 mag m2 	%line{56} %argrw{"wrr"}
+	add		disp $tmp36 resultF 	%argrw{"wrr"}
+# shader.osl:58
+#     Cout2 = mix(Cout2,1,mag*m2);
+	assign		$tmp37 $const21 	%line{58} %argrw{"wr"}
+	mul		$tmp38 mag m2 	%argrw{"wrr"}
+	mix		Cout2 Cout2 $tmp37 $tmp38 	%argrw{"wrrr"}
 	end

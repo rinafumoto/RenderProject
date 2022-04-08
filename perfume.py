@@ -14,8 +14,8 @@ filename = "__render"  # "perfume.rib"
 ri.Begin(filename)
 # ri.Display("perfume_"+str(deg)+".exr", "it", "rgba")
 ri.Display("perfume.exr", "it", "rgba")
-# ri.Format(720, 576, 1)
-ri.Format(1920, 1080, 1)
+ri.Format(720, 576, 1)
+# ri.Format(1920, 1080, 1)
 
 ri.Hider("raytrace", {"int incremental": [1]})
 ri.ShadingRate(10)
@@ -75,14 +75,15 @@ ri.Attribute("displacementbound", {
     "float sphere" : [0.005]
 })
 
-ri.Displace("PxrDisplace", "disp", {
-    "float dispAmount": [0.001],
-    "reference float dispScalar": ["shader:resultF"]
-})
-
 ri.AttributeBegin()
 
+ri.Displace("PxrDisplace", "disp", {
+    "float dispAmount": [-0.001],
+    "reference float dispScalar": ["shader:disp"]
+})
+
 ri.Bxdf("PxrDisney", "bxdf",{
+    # "reference color baseColor" : ["shader:test"],
     "reference color baseColor" : ["shader:Cout2"],
     "float metallic": [0.9],
     "float anisotropic" : [0.6],
@@ -95,6 +96,11 @@ ri.Cylinder(bodyRadius, -bodyHeight, 0, 360)
 ri.TransformEnd()
 ri.AttributeEnd()
 ri.AttributeBegin()
+
+ri.Displace("PxrDisplace", "disp", {
+    "float dispAmount": [-0.001],
+    "reference float dispScalar": ["shader:resultF"]
+})
 
 ri.Bxdf("PxrDisney", "bxdf",{
     "reference color baseColor" : ["shader:Cout"],
