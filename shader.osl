@@ -2,16 +2,15 @@ shader shader(
     color Cin  = 0,
     output color Cout = 0,
     output color Cout2 = 0,
-    output float resultF = 0,
     output float disp = 0,
+    output float disp2 = 0,
     output color test = 0
 )
 {
     // Uniform Lines
-    int f = (int)floor(u*800);
-    resultF = (float)(f%2);
-    // resultF = (float)noise("uperlin",u*800);
-    color lines = (1.25-resultF*0.5)*Cin;
+    int f = (int)floor(u*2400);
+    disp = (float)(f%2);
+    Cout = (1.25-disp*0.5)*Cin;
 
     // Random Lines
     int i=0;
@@ -36,23 +35,24 @@ shader shader(
     Cout = mix(Cin,dark,mag*0.5);
 
     // Fingerprint
-    float n = (float)noise("usimplex", P*10);
-    float m = smoothstep(0,1,sin(v*4));
-    Cout2 = mix(Cout,Cin,m*n);
+    mag = (float)noise("usimplex", P*10);
+    float mask = smoothstep(0,1,sin(v*4));
+    Cout2 = mix(Cout,Cin,mag*mask);
 
     // white pattern;
-	mag=abs((float)noise("perlin",P*12))*20;
+	mag=abs((float)noise("perlin",P*100))*20;
     mag=smoothstep(0.9,1,1-mag);
-    float m2 = smoothstep(0,1,sin(v*6-1));
-    disp = smoothstep(0,1,mag*m2+resultF);
-    Cout2 = mix(Cout2,1,mag*m2);
+    mask = smoothstep(0,1,sin(v*6-1));
+    disp2 = smoothstep(0,1,mag*mask+disp);
+    Cout2 = mix(Cout2,1,mag*mask);
 
     // Dots
-    float a = noise("usimplex",P*10);
-    a = linearstep(0.8,1,a);
-    Cout = mix(Cout,0,a);
-    Cout2 = mix(Cout2,0,a);
-    resultF += a*3;
-    disp += a*3;
+    float dots = noise("usimplex",P*20);
+    dots = linearstep(0.9,1,dots);
+    color dotcolor = color("rgb",0.23,0.03,0.0);
+    Cout = mix(Cout,dotcolor,dots);
+    Cout2 = mix(Cout2,dotcolor,dots);
+    disp += dots*noise("uperlin",P)*10;
+    disp2 += dots*noise("uperlin",P)*10;
 
 }
