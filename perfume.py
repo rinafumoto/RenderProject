@@ -14,8 +14,8 @@ filename = "__render"  # "perfume.rib"
 ri.Begin(filename)
 # ri.Display("perfume_"+str(deg)+".exr", "it", "rgba")
 ri.Display("perfume.exr", "it", "rgba")
-ri.Format(720, 576, 1)
-# ri.Format(1920, 1080, 1)
+# ri.Format(720, 576, 1)
+ri.Format(1920, 1080, 1)
 
 ri.Hider("raytrace", {"int incremental": [1]})
 ri.ShadingRate(10)
@@ -32,6 +32,7 @@ ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
 
 # ri.Scale(0.1,0.1,0.1)
 # ri.Translate(0, 1, 15)
+# ri.Translate(0, 1.5, 3)
 ri.Translate(0, 1.5, 20)
 # ri.Translate(0, 100, 0)
 ri.Rotate(-30, 1, 0, 0)
@@ -75,6 +76,13 @@ ri.Attribute("displacementbound", {
     "float sphere" : [0.01]
 })
 
+ri.Pattern("PxrFlakes", "flakes", {
+	'float flakeAmount' : [0.05], 
+	'float flakeFreq' : [80], 
+	'float size' : [0.8], 
+	'int octaves' : [3], 
+})
+
 ri.AttributeBegin()
 
 ri.Displace("PxrDisplace", "disp", {
@@ -83,11 +91,11 @@ ri.Displace("PxrDisplace", "disp", {
 })
 
 ri.Bxdf("PxrDisney", "bxdf",{
-    # "reference color baseColor" : ["shader:test"],
     "reference color baseColor" : ["shader:Cout2"],
     "float metallic": [0.9],
     "float anisotropic" : [0.6],
-    "float roughness": [0.3]
+    "float roughness": [0.3],
+    "reference normal bumpNormal":  ["flakes:resultN"] 
 })
 
 ri.TransformBegin()
@@ -106,7 +114,8 @@ ri.Bxdf("PxrDisney", "bxdf",{
     "reference color baseColor" : ["shader:Cout"],
     "float metallic": [0.9],
     "float anisotropic" : [0.6],
-    "float roughness": [0.3]
+    "float roughness": [0.3],
+    "reference normal bumpNormal":  ["flakes:resultN"] 
 })
 
 ri.TransformBegin()

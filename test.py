@@ -64,12 +64,36 @@ ri.Pattern("shader", "shader",{
 #     "float smoothness": [1]
 # })
 
-ri.Bxdf("PxrDisney", "bxdf",{
-    "reference color baseColor" : ["shader:test"],
-    # "float metallic": [0.9],
-    # "float anisotropic" : [0.6],
-    # "float roughness": [0.3]
+ri.Pattern("PxrFlakes", "flakes", {
+	'normal inputNormal' : [0,0,0], 
+	'float flakeAmount' : [.5], 
+	'float flakeFreq' : [57.30], 
+	'float density' : [1.0], 
+	'float size' : [1.0], 
+	'int octaves' : [1], 
+	'float jitter' : [0.75], 
+	'int validateNormals' : [0], 
 })
+
+# ri.Pattern('PxrMix','mixer',
+# {
+# 	'color color1' : [0.,0.,0.], 
+# 	'color color2' : [1.,1.,1.], 
+# 	# 'float mix' : [1], 
+# 	'reference float mix' : ["flakes:resultA"], 
+# })
+ri.Bxdf("PxrDisney", "bxdf",{
+    "color baseColor" : [ 0.65, 0.27, 0.07 ],
+    "float metallic": [0.9],
+    "float anisotropic" : [0.6],
+    "float roughness": [0.3],
+    "reference normal bumpNormal":  ["flakes:resultN"] 
+})
+# ri.Bxdf("PxrDisney", "bxdf",{
+#     "color baseColor" : [ 0,0,0 ],
+#     # "color baseColor" : [ 0.65, 0.27, 0.07 ],
+#     "reference normal bumpNormal":  ["flakes:resultN"] 
+# })
 
 # ri.Rotate(-90, 1, 0, 0)
 # ri.Geometry("teapot")
