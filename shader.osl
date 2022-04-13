@@ -1,5 +1,6 @@
 shader shader(
     color Cin  = 0,
+    float damage  = 0,
     output color Cout = 0,
     output color Cout2 = 0,
     output float disp = 0,
@@ -54,5 +55,10 @@ shader shader(
     Cout2 = mix(Cout2,dotcolor,dots);
     disp += dots*noise("uperlin",P)*10;
     disp2 += dots*noise("uperlin",P)*10;
+    
+    if(v > 0.01 && v < 0.99)
+    {
+        disp2 += (1-damage)*300;
+    }
 
 }

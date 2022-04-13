@@ -4,23 +4,18 @@ import prman
 import math
 
 ri = prman.Ri()
-filename = "__render"  # "perfume.rib"
-
-# for i in range(12):
-    # deg = i*30
 
 ##### SETTINGS #####
 
-ri.Begin(filename)
-# ri.Display("perfume_"+str(deg)+".exr", "it", "rgba")
+ri.Begin("__render")
 ri.Display("render/perfume.exr", "file", "rgba")
 # ri.Display("perfume.exr", "it", "rgba")
 # ri.Format(720, 576, 1)
 ri.Format(1920, 1080, 1)
 
 ri.Hider("raytrace", {"int incremental": [1]})
-ri.ShadingRate(10)
-ri.PixelVariance(0.1)
+# ri.ShadingRate(10)
+# ri.PixelVariance(0.1)
 ri.Integrator("PxrPathTracer", "integrator")
 
 ri.Option( 'statistics', {'filename'  : [ 'stats.txt' ] } )
@@ -32,7 +27,7 @@ ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
 ##### GLOBAL TRANSFORMATION #####
 
 # ri.Translate(0, 2.5, 3.5)
-ri.Translate(0, 1.5, 20)
+ri.Translate(0, 1.2, 17)
 ri.Rotate(-30, 1, 0, 0)
 
 ri.WorldBegin()
@@ -63,13 +58,17 @@ middleHeight = 1.3
 
 ### Body ###
 
+ri.Pattern("PxrTexture", "damage", {
+    "string filename": "textures/damage.tx"
+})
 
 ri.Pattern("shader", "shader",{
-    "color Cin": [ 0.65, 0.27, 0.07 ]
+    "color Cin": [ 0.65, 0.27, 0.07 ],
+    "reference float damage": ["damage:resultR"] 
 })
 
 ri.Attribute("displacementbound", {
-    "float sphere" : [0.001]
+    "float sphere" : [0.1]
 })
 
 ri.Pattern("PxrFlakes", "flakes", {
@@ -188,31 +187,11 @@ ri.Bxdf("PxrDisney", "bxdf",{
     "reference color baseColor" : ["myTexture:resultRGB"]
 })
 
-# expr = """
-# $colour = c1;
-# $c = floor( 10 * $u ) +floor( 10 * $v );
-# if( fmod( $c, 2.0 ) < 1.0 )
-# {
-# 	$colour=c2;
-# }
-# $colour
-# """
-
-# ri.Pattern("PxrSeExpr", "seTexture", {"color c1": [1, 1, 1], "color c2": [0, 0, 0], "string expression": [expr]})
-# ri.Bxdf(
-#     "PxrDiffuse",
-#     "diffuse",
-#     {
-#         #  'color diffuseColor'  : [1,0,0]
-#         "reference color diffuseColor": ["seTexture:resultRGB"]
-#     },
-# )
-
 ri.TransformBegin()
 ri.Rotate(-90, 1, 0, 0)
 ri.Rotate(90,0,0,1)
 ri.Translate(-35, 0, -(bodyHeight+bottomMinorRadius))
-ri.Patch("bilinear", {"P": [-40,-40,0, 40,-40,0, -40,40,0, 40,40,0]})
+ri.Patch("bilinear", {"P": [-50,-50,0, 50,-50,0, -50,50,0, 50,50,0]})
 ri.TransformEnd()
 
 ri.AttributeEnd()
