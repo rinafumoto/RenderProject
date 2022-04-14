@@ -4,12 +4,11 @@ shader shader(
     output color Cout = 0,
     output color Cout2 = 0,
     output float disp = 0,
-    output float disp2 = 0,
-    output color test = 0
+    output float disp2 = 0
 )
 {
     // Uniform Lines
-    int f = (int)floor(u*2400);
+    int f = (int)floor(u*5000);
     disp = (float)(f%2);
     Cout = (1.25-disp*0.5)*Cin;
 
@@ -34,7 +33,7 @@ shader shader(
     mag = 1-mag;
     color dark=color("rgb",0.33,0.13,0.04);
     Cout = mix(Cin,dark,mag*0.5);
-
+    
     // Fingerprint
     mag = (float)noise("usimplex", P*10);
     float mask = smoothstep(0,1,sin(v*4));

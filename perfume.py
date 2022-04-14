@@ -8,14 +8,18 @@ ri = prman.Ri()
 ##### SETTINGS #####
 
 ri.Begin("__render")
-ri.Display("render/perfume.exr", "file", "rgba")
-# ri.Display("perfume.exr", "it", "rgba")
+# ri.Display("render/test.exr", "file", "rgba")
+ri.Display("perfume.exr", "it", "rgba")
 # ri.Format(720, 576, 1)
 ri.Format(1920, 1080, 1)
 
-ri.Hider("raytrace", {"int incremental": [1]})
-# ri.ShadingRate(10)
-# ri.PixelVariance(0.1)
+ri.Hider("raytrace", {
+    "int incremental": [1],
+    "int maxsamples": 128,
+    "int minsamples": 128
+})
+ri.ShadingRate(1)
+ri.PixelVariance(0.01)
 ri.Integrator("PxrPathTracer", "integrator")
 
 ri.Option( 'statistics', {'filename'  : [ 'stats.txt' ] } )
@@ -26,7 +30,7 @@ ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
 
 ##### GLOBAL TRANSFORMATION #####
 
-# ri.Translate(0, 2.5, 3.5)
+# ri.Translate(0, 2.5, 2.5)
 ri.Translate(0, 1.2, 17)
 ri.Rotate(-30, 1, 0, 0)
 
@@ -38,7 +42,6 @@ ri.TransformBegin()
 ri.AttributeBegin()
 ri.Declare("domeLight", "string")
 ri.Rotate(-90, 1, 0, 0)
-# ri.Rotate(deg,0,0,1)
 ri.Rotate(-30,0,0,1)
 ri.Light("PxrDomeLight", "domeLight", {
     "string lightColorMap": "env/photo_studio_london_hall_8k.tx",
@@ -63,7 +66,7 @@ ri.Pattern("PxrTexture", "damage", {
 })
 
 ri.Pattern("shader", "shader",{
-    "color Cin": [ 0.65, 0.27, 0.07 ],
+    "color Cin": [ 0.6, 0.27, 0.07 ],
     "reference float damage": ["damage:resultR"] 
 })
 
@@ -72,10 +75,10 @@ ri.Attribute("displacementbound", {
 })
 
 ri.Pattern("PxrFlakes", "flakes", {
-	'float flakeAmount' : [0.05], 
-	'float flakeFreq' : [80], 
-	'float size' : [0.8], 
-	'int octaves' : [2], 
+    'float flakeAmount' : [0.05], 
+    'float flakeFreq' : [80], 
+    'float size' : [0.8], 
+    'int octaves' : [2], 
 })
 
 ri.AttributeBegin()
@@ -88,8 +91,8 @@ ri.Displace("PxrDisplace", "disp", {
 ri.Bxdf("PxrDisney", "bxdf",{
     "reference color baseColor" : ["shader:Cout2"],
     "float metallic": [0.9],
-    "float anisotropic" : [0.6],
     "float roughness": [0.3],
+    "float anisotropic" : [0.6],
     "reference normal bumpNormal":  ["flakes:resultN"] 
 })
 
@@ -109,8 +112,8 @@ ri.Displace("PxrDisplace", "disp", {
 ri.Bxdf("PxrDisney", "bxdf",{
     "reference color baseColor" : ["shader:Cout"],
     "float metallic": [0.9],
-    "float anisotropic" : [0.6],
     "float roughness": [0.3],
+    "float anisotropic" : [0.6],
     "reference normal bumpNormal":  ["flakes:resultN"] 
 })
 
@@ -150,7 +153,7 @@ ri.TransformBegin()
 ri.Translate(0, 0.05, 0)
 
 ri.Bxdf("PxrDisney", "bxdf",{
-    "color baseColor" : [ 0.65, 0.27, 0.07 ],
+    "color baseColor" : [ 0.4, 0.2, 0.02 ],
     "float metallic": [1],
     "float roughness": [0]
 })

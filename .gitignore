@@ -1,4 +1,4 @@
 .*
 env/
-render/
+# render/
 stats.txt
