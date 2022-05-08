@@ -72,44 +72,42 @@ temp	float	$tmp23	%read{44,44} %write{43,43}
 temp	float	$tmp24	%read{43,43} %write{42,42}
 const	float	$const29	4		%read{42,42} %write{2147483647,-1}
 temp	float	$tmp25	%read{46,46} %write{45,45}
-temp	float	$tmp26	%read{50,50} %write{49,49}
-temp	float	$tmp27	%read{49,49} %write{48,48}
-temp	point	$tmp28	%read{48,48} %write{47,47}
+temp	point	$tmp26	%read{48,48} %write{47,47}
 const	float	$const31	100		%read{47,47} %write{2147483647,-1}
 const	float	$const33	20		%read{50,63} %write{2147483647,-1}
 const	float	$const34	0.899999976		%read{52,74} %write{2147483647,-1}
-temp	float	$tmp29	%read{52,52} %write{51,51}
-temp	float	$tmp30	%read{56,56} %write{55,55}
-temp	float	$tmp31	%read{54,54} %write{53,53}
+temp	float	$tmp27	%read{52,52} %write{51,51}
+temp	float	$tmp28	%read{56,56} %write{55,55}
+temp	float	$tmp29	%read{54,54} %write{53,53}
 const	float	$const36	6		%read{53,53} %write{2147483647,-1}
-temp	float	$tmp32	%read{55,55} %write{54,54}
-temp	float	$tmp33	%read{58,58} %write{57,57}
-temp	float	$tmp34	%read{59,59} %write{58,58}
-temp	color	$tmp35	%read{62,62} %write{60,60}
-temp	float	$tmp36	%read{62,62} %write{61,61}
-temp	point	$tmp37	%read{64,64} %write{63,63}
+temp	float	$tmp30	%read{55,55} %write{54,54}
+temp	float	$tmp31	%read{58,58} %write{57,57}
+temp	float	$tmp32	%read{59,59} %write{58,58}
+temp	color	$tmp33	%read{62,62} %write{60,60}
+temp	float	$tmp34	%read{62,62} %write{61,61}
+temp	point	$tmp35	%read{64,64} %write{63,63}
 const	string	$const37	"linearstep"		%read{65,65} %write{2147483647,-1}
-temp	int	$tmp38	%read{67,67} %write{66,66}
+temp	int	$tmp36	%read{67,67} %write{66,66}
 const	string	$const38	"clamp"		%read{68,68} %write{2147483647,-1}
-temp	float	$tmp39	%read{70,70} %write{69,69}
-temp	float	$tmp40	%read{73,73} %write{71,71}
-temp	float	$tmp41	%read{73,73} %write{72,72}
+temp	float	$tmp37	%read{70,70} %write{69,69}
+temp	float	$tmp38	%read{73,73} %write{71,71}
+temp	float	$tmp39	%read{73,73} %write{72,72}
 const	float	$const39	0.230000004		%read{76,76} %write{2147483647,-1}
 const	float	$const40	0.0299999993		%read{76,76} %write{2147483647,-1}
-temp	float	$tmp42	%read{80,80} %write{79,79}
-temp	float	$tmp43	%read{81,81} %write{80,80}
-temp	float	$tmp44	%read{82,82} %write{81,81}
-temp	float	$tmp45	%read{84,84} %write{83,83}
-temp	float	$tmp46	%read{85,85} %write{84,84}
-temp	float	$tmp47	%read{86,86} %write{85,85}
+temp	float	$tmp40	%read{80,80} %write{79,79}
+temp	float	$tmp41	%read{81,81} %write{80,80}
+temp	float	$tmp42	%read{82,82} %write{81,81}
+temp	float	$tmp43	%read{84,84} %write{83,83}
+temp	float	$tmp44	%read{85,85} %write{84,84}
+temp	float	$tmp45	%read{86,86} %write{85,85}
 const	float	$const41	0.00999999978		%read{87,87} %write{2147483647,-1}
-temp	int	$tmp48	%read{88,88} %write{87,87}
-temp	int	$tmp49	%read{89,93} %write{88,92}
+temp	int	$tmp46	%read{88,88} %write{87,87}
+temp	int	$tmp47	%read{89,93} %write{88,92}
 const	float	$const42	0.99000001		%read{90,90} %write{2147483647,-1}
-temp	int	$tmp50	%read{91,91} %write{90,90}
-temp	int	$tmp51	%read{92,92} %write{91,91}
-temp	float	$tmp52	%read{95,95} %write{94,94}
-temp	float	$tmp53	%read{96,96} %write{95,95}
+temp	int	$tmp48	%read{91,91} %write{90,90}
+temp	int	$tmp49	%read{92,92} %write{91,91}
+temp	float	$tmp50	%read{95,95} %write{94,94}
+temp	float	$tmp51	%read{96,96} %write{95,95}
 code ___main___
 # shader.osl:11
 #     int f = (int)floor(u*5000);
@@ -201,93 +199,97 @@ code ___main___
 	mul		$tmp25 mag mask 	%line{40} %argrw{"wrr"}
 	mix		Cout2 Cout Cin $tmp25 	%argrw{"wrrr"}
 # shader.osl:43
-# 	mag=abs((float)noise("perlin",P*100))*20;
-	mul		$tmp28 P $const31 	%line{43} %argrw{"wrr"}
-	noise		$tmp27 $const16 $tmp28 	%argrw{"wrr"}
-	abs		$tmp26 $tmp27 	%argrw{"wr"}
-	mul		mag $tmp26 $const33 	%argrw{"wrr"}
+#     mag = (float)noise("perlin",P*100);
+	mul		$tmp26 P $const31 	%line{43} %argrw{"wrr"}
+	noise		mag $const16 $tmp26 	%argrw{"wrr"}
 # shader.osl:44
-#     mag=smoothstep(0.9,1,1-mag);
-	sub		$tmp29 $const21 mag 	%line{44} %argrw{"wrr"}
-	smoothstep	mag $const34 $const21 $tmp29 	%argrw{"wrrr"}
+#     mag = abs(mag);
+	abs		mag mag 	%line{44} %argrw{"wr"}
 # shader.osl:45
-#     mask = smoothstep(0,1,sin(v*6-1));
-	mul		$tmp31 v $const36 	%line{45} %argrw{"wrr"}
-	sub		$tmp32 $tmp31 $const21 	%argrw{"wrr"}
-	sin		$tmp30 $tmp32 	%argrw{"wr"}
-	smoothstep	mask $const12 $const21 $tmp30 	%argrw{"wrrr"}
+#     mag = mag*20;
+	mul		mag mag $const33 	%line{45} %argrw{"wrr"}
 # shader.osl:46
-#     disp2 = smoothstep(0,1,mag*mask+disp);
-	mul		$tmp33 mag mask 	%line{46} %argrw{"wrr"}
-	add		$tmp34 $tmp33 disp 	%argrw{"wrr"}
-	smoothstep	disp2 $const12 $const21 $tmp34 	%argrw{"wrrr"}
+#     mag = smoothstep(0.9,1,1-mag);
+	sub		$tmp27 $const21 mag 	%line{46} %argrw{"wrr"}
+	smoothstep	mag $const34 $const21 $tmp27 	%argrw{"wrrr"}
 # shader.osl:47
+#     mask = smoothstep(0,1,sin(v*6-1));
+	mul		$tmp29 v $const36 	%line{47} %argrw{"wrr"}
+	sub		$tmp30 $tmp29 $const21 	%argrw{"wrr"}
+	sin		$tmp28 $tmp30 	%argrw{"wr"}
+	smoothstep	mask $const12 $const21 $tmp28 	%argrw{"wrrr"}
+# shader.osl:48
+#     disp2 = smoothstep(0,1,mag*mask+disp);
+	mul		$tmp31 mag mask 	%line{48} %argrw{"wrr"}
+	add		$tmp32 $tmp31 disp 	%argrw{"wrr"}
+	smoothstep	disp2 $const12 $const21 $tmp32 	%argrw{"wrrr"}
+# shader.osl:49
 #     Cout2 = mix(Cout2,1,mag*mask);
-	assign		$tmp35 $const21 	%line{47} %argrw{"wr"}
-	mul		$tmp36 mag mask 	%argrw{"wrr"}
-	mix		Cout2 Cout2 $tmp35 $tmp36 	%argrw{"wrrr"}
-# shader.osl:50
+	assign		$tmp33 $const21 	%line{49} %argrw{"wr"}
+	mul		$tmp34 mag mask 	%argrw{"wrr"}
+	mix		Cout2 Cout2 $tmp33 $tmp34 	%argrw{"wrrr"}
+# shader.osl:52
 #     float dots = noise("usimplex",P*20);
-	mul		$tmp37 P $const33 	%line{50} %argrw{"wrr"}
-	noise		dots $const27 $tmp37 	%argrw{"wrr"}
-# shader.osl:51
+	mul		$tmp35 P $const33 	%line{52} %argrw{"wrr"}
+	noise		dots $const27 $tmp35 	%argrw{"wrr"}
+# shader.osl:53
 #     dots = linearstep(0.9,1,dots);
-	functioncall	$const37 76 	%line{51} %argrw{"r"}
+	functioncall	$const37 76 	%line{53} %argrw{"r"}
 # /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:361
 #     if (edge0 != edge1) {
-	neq		$tmp38 $const34 $const21 	%filename{"/opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h"} %line{361} %argrw{"wrr"}
-	if		$tmp38 74 75 	%argrw{"r"}
+	neq		$tmp36 $const34 $const21 	%filename{"/opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h"} %line{361} %argrw{"wrr"}
+	if		$tmp36 74 75 	%argrw{"r"}
 # /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:362
 #         float xclamped = clamp (x, edge0, edge1);
 	functioncall	$const38 71 	%line{362} %argrw{"r"}
 # /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:163
 # float  clamp (float x, float minval, float maxval) { return max(min(x,maxval),minval); }
-	min		$tmp39 dots $const21 	%line{163} %argrw{"wrr"}
-	max		___270_xclamped $tmp39 $const34 	%argrw{"wrr"}
+	min		$tmp37 dots $const21 	%line{163} %argrw{"wrr"}
+	max		___270_xclamped $tmp37 $const34 	%argrw{"wrr"}
 # /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:363
 #         result = (xclamped - edge0) / (edge1 - edge0);
-	sub		$tmp40 ___270_xclamped $const34 	%line{363} %argrw{"wrr"}
-	sub		$tmp41 $const21 $const34 	%argrw{"wrr"}
-	div		___269_result $tmp40 $tmp41 	%argrw{"wrr"}
+	sub		$tmp38 ___270_xclamped $const34 	%line{363} %argrw{"wrr"}
+	sub		$tmp39 $const21 $const34 	%argrw{"wrr"}
+	div		___269_result $tmp38 $tmp39 	%argrw{"wrr"}
 # /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:365
 #         result = step (edge0, x);
 	step		___269_result $const34 dots 	%line{365} %argrw{"wrr"}
 # /opt/pixar/RenderManProServer-24.1/lib/osl/include/stdosl.h:367
 #     return result;
 	assign		dots ___269_result 	%line{367} %argrw{"wr"}
-# shader.osl:52
-#     color dotcolor = color("rgb",0.23,0.03,0.0);
-	color		dotcolor $const23 $const39 $const40 $const12 	%filename{"shader.osl"} %line{52} %argrw{"wrrrr"}
-# shader.osl:53
-#     Cout = mix(Cout,dotcolor,dots);
-	mix		Cout Cout dotcolor dots 	%line{53} %argrw{"wrrr"}
 # shader.osl:54
-#     Cout2 = mix(Cout2,dotcolor,dots);
-	mix		Cout2 Cout2 dotcolor dots 	%line{54} %argrw{"wrrr"}
+#     color dotcolor = color("rgb",0.23,0.03,0.0);
+	color		dotcolor $const23 $const39 $const40 $const12 	%filename{"shader.osl"} %line{54} %argrw{"wrrrr"}
 # shader.osl:55
-#     disp += dots*noise("uperlin",P)*10;
-	noise		$tmp42 $const9 P 	%line{55} %argrw{"wrr"}
-	mul		$tmp43 dots $tmp42 	%argrw{"wrr"}
-	mul		$tmp44 $tmp43 $const15 	%argrw{"wrr"}
-	add		disp disp $tmp44 	%argrw{"wrr"}
+#     Cout = mix(Cout,dotcolor,dots);
+	mix		Cout Cout dotcolor dots 	%line{55} %argrw{"wrrr"}
 # shader.osl:56
-#     disp2 += dots*noise("uperlin",P)*10;
-	noise		$tmp45 $const9 P 	%line{56} %argrw{"wrr"}
-	mul		$tmp46 dots $tmp45 	%argrw{"wrr"}
-	mul		$tmp47 $tmp46 $const15 	%argrw{"wrr"}
-	add		disp2 disp2 $tmp47 	%argrw{"wrr"}
+#     Cout2 = mix(Cout2,dotcolor,dots);
+	mix		Cout2 Cout2 dotcolor dots 	%line{56} %argrw{"wrrr"}
+# shader.osl:57
+#     disp += dots*noise("uperlin",P)*10;
+	noise		$tmp40 $const9 P 	%line{57} %argrw{"wrr"}
+	mul		$tmp41 dots $tmp40 	%argrw{"wrr"}
+	mul		$tmp42 $tmp41 $const15 	%argrw{"wrr"}
+	add		disp disp $tmp42 	%argrw{"wrr"}
 # shader.osl:58
-#     if(v > 0.01 && v < 0.99)
-	gt		$tmp48 v $const41 	%line{58} %argrw{"wrr"}
-	neq		$tmp49 $tmp48 $const6 	%argrw{"wrr"}
-	if		$tmp49 93 93 	%argrw{"r"}
-	lt		$tmp50 v $const42 	%argrw{"wrr"}
-	neq		$tmp51 $tmp50 $const6 	%argrw{"wrr"}
-	assign		$tmp49 $tmp51 	%argrw{"wr"}
-	if		$tmp49 97 97 	%argrw{"r"}
+#     disp2 += dots*noise("uperlin",P)*10;
+	noise		$tmp43 $const9 P 	%line{58} %argrw{"wrr"}
+	mul		$tmp44 dots $tmp43 	%argrw{"wrr"}
+	mul		$tmp45 $tmp44 $const15 	%argrw{"wrr"}
+	add		disp2 disp2 $tmp45 	%argrw{"wrr"}
 # shader.osl:60
+#     if(v > 0.01 && v < 0.99)
+	gt		$tmp46 v $const41 	%line{60} %argrw{"wrr"}
+	neq		$tmp47 $tmp46 $const6 	%argrw{"wrr"}
+	if		$tmp47 93 93 	%argrw{"r"}
+	lt		$tmp48 v $const42 	%argrw{"wrr"}
+	neq		$tmp49 $tmp48 $const6 	%argrw{"wrr"}
+	assign		$tmp47 $tmp49 	%argrw{"wr"}
+	if		$tmp47 97 97 	%argrw{"r"}
+# shader.osl:62
 #         disp2 += (1-damage)*300;
-	sub		$tmp52 $const21 damage 	%line{60} %argrw{"wrr"}
-	mul		$tmp53 $tmp52 $const11 	%argrw{"wrr"}
-	add		disp2 disp2 $tmp53 	%argrw{"wrr"}
+	sub		$tmp50 $const21 damage 	%line{62} %argrw{"wrr"}
+	mul		$tmp51 $tmp50 $const11 	%argrw{"wrr"}
+	add		disp2 disp2 $tmp51 	%argrw{"wrr"}
 	end
