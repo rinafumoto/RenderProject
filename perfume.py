@@ -8,22 +8,22 @@ ri = prman.Ri()
 ##### SETTINGS #####
 
 ri.Begin("__render")
-# ri.Display("render/test.exr", "file", "rgba")
-ri.Display("perfume.exr", "it", "rgba")
+ri.Display("render/test/test.exr", "file", "rgba")
+# ri.Display("perfume.exr", "it", "rgba")
 # ri.Format(720, 576, 1)
 ri.Format(1920, 1080, 1)
 
-ri.Hider("raytrace", {
-    "int incremental": [1],
-    "int maxsamples": 128,
-    "int minsamples": 128
-})
-ri.ShadingRate(1)
-ri.PixelVariance(0.01)
+# ri.Hider("raytrace", {
+#     "int incremental": [1],
+#     "int maxsamples": 128,
+#     "int minsamples": 128
+# })
+# ri.ShadingRate(1)
+# ri.PixelVariance(0.01)
 ri.Integrator("PxrPathTracer", "integrator")
 
-ri.Option( 'statistics', {'filename'  : [ 'stats.txt' ] } )
-ri.Option( 'statistics', {'endofframe' : [ 1 ] })
+# ri.Option( 'statistics', {'filename'  : [ 'stats.txt' ] } )
+# ri.Option( 'statistics', {'endofframe' : [ 1 ] })
 
 # ri.Projection(ri.ORTHOGRAPHIC)
 ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
@@ -179,25 +179,58 @@ ri.TransformEnd()
 
 ri.AttributeEnd()
 
-### Table ###
+### Desk ###
 
 ri.AttributeBegin()
 
-ri.Pattern("PxrTexture", "myTexture", {
+ri.Pattern("PxrTexture", "desk", {
     "string filename" : ["textures/White_oak_pxr128.tx"]
 })
+
+ri.Pattern("PxrNormalMap", "normal", {
+    "string filename" : ["textures/White_oak_pxr128_normal.tx"]
+})
+
 ri.Bxdf("PxrDisney", "bxdf",{
-    "reference color baseColor" : ["myTexture:resultRGB"]
+    "reference color baseColor" : ["desk:resultRGB"],
+    "reference normal bumpNormal":  ["normal:resultN"] 
 })
 
 ri.TransformBegin()
 ri.Rotate(-90, 1, 0, 0)
 ri.Rotate(90,0,0,1)
-ri.Translate(-35, 0, -(bodyHeight+bottomMinorRadius))
-ri.Patch("bilinear", {"P": [-50,-50,0, 50,-50,0, -50,50,0, 50,50,0]})
+ri.Translate(0, 0, -(bodyHeight+bottomMinorRadius))
+ri.Patch("bilinear", {"P": [-20,-50,0, 10,-50,0, -20,50,0, 10,50,0]})
 ri.TransformEnd()
 
 ri.AttributeEnd()
+
+### Wall ###
+
+ri.AttributeBegin()
+
+ri.Pattern("PxrTexture", "wall", {
+    "string filename" : ["textures/beige_wall.tx"],
+    # "color colorScale" : [1, 1.3, 1],
+})
+
+ri.Pattern("PxrNormalMap", "normal", {
+    "string filename" : ["textures/beige_wall_normal.tx"],
+})
+
+ri.Bxdf("PxrDisney", "bxdf",{
+    "reference color baseColor" : ["wall:resultRGB"],
+    "reference normal bumpNormal":  ["normal:resultN"],
+    "float roughness": [0.5]
+})
+
+ri.TransformBegin()
+ri.Translate(0, -(bodyHeight+bottomMinorRadius+1), 15)
+ri.Patch("bilinear", {"P": [-50,0,0, 50,0,0, -50,100,0, 50,100,0]})
+ri.TransformEnd()
+
+ri.AttributeEnd()
+
 
 ri.WorldEnd()
 ri.End()
