@@ -8,25 +8,24 @@ ri = prman.Ri()
 ##### SETTINGS #####
 
 ri.Begin("__render")
-ri.Display("render/test/test.exr", "file", "rgba")
+ri.Display("render/dof.exr", "file", "rgba")
 # ri.Display("perfume.exr", "it", "rgba")
 # ri.Format(720, 576, 1)
 ri.Format(1920, 1080, 1)
 
-# ri.Hider("raytrace", {
-#     "int incremental": [1],
-#     "int maxsamples": 128,
-#     "int minsamples": 128
-# })
-# ri.ShadingRate(1)
-# ri.PixelVariance(0.01)
+ri.Hider("raytrace", {
+    "int incremental": [1],
+    "int minsamples": 128,
+    "int maxsamples": 256
+})
+ri.ShadingRate(1)
+ri.PixelVariance(0.01)
 ri.Integrator("PxrPathTracer", "integrator")
-
-# ri.Option( 'statistics', {'filename'  : [ 'stats.txt' ] } )
-# ri.Option( 'statistics', {'endofframe' : [ 1 ] })
 
 # ri.Projection(ri.ORTHOGRAPHIC)
 ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
+
+ri.DepthOfField(2.8, 0.6, 16)
 
 ##### GLOBAL TRANSFORMATION #####
 
@@ -211,7 +210,6 @@ ri.AttributeBegin()
 
 ri.Pattern("PxrTexture", "wall", {
     "string filename" : ["textures/beige_wall.tx"],
-    # "color colorScale" : [1, 1.3, 1],
 })
 
 ri.Pattern("PxrNormalMap", "normal", {
