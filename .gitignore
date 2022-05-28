@@ -4,3 +4,4 @@ env/
 stats.txt
 
 render/test
+__pycache__
