@@ -201,7 +201,7 @@ def lighting():
     ri.Rotate(-90, 1, 0, 0)
     ri.Rotate(-30,0,0,1)
     ri.Light("PxrDomeLight", "domeLight", {
-        "string lightColorMap": "env/photo_studio_london_hall_8k.tx",
+        "string lightColorMap": "env/photo_studio_london_hall_2k.tx",
         "float intensity": [0.8]
         })
 

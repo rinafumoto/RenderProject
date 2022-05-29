@@ -1,7 +1,2 @@
 .*
-env/
-# render/
-stats.txt
-
-render/test
 __pycache__

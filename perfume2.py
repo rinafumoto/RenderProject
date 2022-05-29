@@ -15,7 +15,7 @@ ri.Hider("raytrace", {
     "int maxsamples": 256
 })
 ri.ShadingRate(1)
-ri.PixelVariance(10)
+ri.PixelVariance(0.01)
 ri.Integrator("PxrPathTracer", "integrator")
 
 ri.Projection(ri.PERSPECTIVE,{ri.FOV:35})
@@ -49,19 +49,19 @@ perfume.bottle([0.5,0.5,0.5],[0.3,0.3,0.3])
 
 ri.Translate(5,0,0)
 ri.TransformBegin()
-ri.Rotate(30, 0,1,0)
+ri.Rotate(180, 0,1,0)
 perfume.bottle([0.6,0.3,0.4],[0.4,0.2,0.3])
 ri.TransformEnd()
 
 ri.Translate(5,0,0)
 ri.TransformBegin()
-ri.Rotate(30, 0,1,0)
+ri.Rotate(180, 0,1,0)
 perfume.bottle([0.12,0.18,0.26],[0.08,0.12,0.17])
 ri.TransformEnd()
 
 ri.Translate(5,0,0)
 ri.TransformBegin()
-ri.Rotate(30, 0,1,0)
+ri.Rotate(180, 0,1,0)
 perfume.bottle([0.1,0.1,0.1],[0.07,0.07,0.07])
 ri.TransformEnd()
 
