@@ -1,7 +1,0 @@
-\section{BRDF}
-%% analyzing the real object
-Both the bottle and the cap are golden metallic materials but the cap is smoother and shinier than the bottle. On the other hand, the body reflects less light compared to the cap due to the roughness, dirt and fine scratches on it.
-
-
-%% describing the implementation
-The PxrDisney shader is used for both materials and the same golden colour is used as the base colour. The metallic value is set to 1 and roughness value is set to 0 for the cap to recreate the shiny metallic material. The bottle is less smooth than the cap, so higher values are given for the roughness and anisotropic properties. Even though the bottle is a made of metallic material, it looks less metalic compared to the cap so metallic value was set to 0.9.

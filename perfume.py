@@ -211,30 +211,30 @@ def lighting():
 if __name__ == '__main__':
 
     ### SETTINGS ###
-
     ri.Begin("__render")
-    ri.Display("render/perfume_v1.exr", "file", "rgba")
+    ri.Display("render/v1.exr", "file", "rgba")
     ri.Format(1920, 1080, 1)
 
-    # ri.Hider("raytrace", {
-    #     "int incremental": [1],
-    #     "int minsamples": 128,
-    #     "int maxsamples": 256
-    # })
-    # ri.ShadingRate(1)
-    # ri.PixelVariance(0.01)
+    ri.Hider("raytrace", {
+        "int incremental": [1],
+        "int minsamples": 128,
+        "int maxsamples": 256
+    })
+    ri.ShadingRate(1)
+    ri.PixelVariance(0.01)
     ri.Integrator("PxrPathTracer", "integrator")
 
     ri.Projection(ri.PERSPECTIVE,{ri.FOV:40})
-    ri.DepthOfField(2.8, 0.6, 16)
+    ri.DepthOfField(4, 0.01, 0.16)
 
     ### GLOBAL TRANSFORMATION ###
 
+    # Convert to real life scale
+    ri.Scale(0.01,0.01,0.01)
     ri.Translate(0, 1.2, 17)
     ri.Rotate(-30, 1, 0, 0)
 
     ri.WorldBegin()
-
     lighting()
     bottle()
     env()

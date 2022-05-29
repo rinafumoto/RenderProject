@@ -31,7 +31,9 @@ shader shader(
     }
 
     mag = 1-mag;
-    color dark=color("rgb",0.33,0.13,0.04);
+    
+    color dark=Cin*0.5;
+    // color dark=color("rgb",0.33,0.13,0.04);
     Cout = mix(Cin,dark,mag*0.5);
     
     // Fingerprint
@@ -51,7 +53,8 @@ shader shader(
     // Dots
     float dots = noise("usimplex",P*20);
     dots = linearstep(0.9,1,dots);
-    color dotcolor = color("rgb",0.23,0.03,0.0);
+    color dotcolor = Cin*0.15;
+    // color dotcolor = color("rgb",0.23,0.03,0.0);
     Cout = mix(Cout,dotcolor,dots);
     Cout2 = mix(Cout2,dotcolor,dots);
     disp += dots*noise("uperlin",P)*10;
